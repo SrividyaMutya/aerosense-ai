@@ -1,0 +1,4 @@
+fastapi
+uvicorn[standard]
+pydantic
+websocketscd C:\Users\srivi\Downloads\ai_fan
