@@ -1,6 +1,7 @@
 // AeroSense AI – API Client & WebSocket Telemetry Manager
 
-const BASE_URL = '/api';
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
 
 export const api = {
   // Sensors & Environment
@@ -126,10 +127,14 @@ export function connectTelemetryWebSocket(onTelemetry, onStatusChange) {
 
   function connect() {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    // In local development, connect directly to backend port 8008 for maximum reliability
-    const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const wsHost = isLocalDev ? `${window.location.hostname}:8008` : window.location.host;
-    const wsUrl = `${protocol}//${wsHost}/ws/live`;
+
+    const isLocalDev =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
+
+    const wsUrl = isLocalDev
+      ? `${protocol}//${window.location.hostname}:8008/ws/live`
+      : `wss://aerosense-ai-2.onrender.com/ws/live`;
 
     try {
       ws = new WebSocket(wsUrl);
